@@ -44,13 +44,14 @@ typeB _ (_,y,_)= y
 
 -- typeC :: (a -> [b]) -> (b -> [c]) -> a -> [c]
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeC f g x = z (f x)
+typeC f g x = h (f x)
   where
-    z []     = []
-    z (y:ys) = g y `append` z ys
+    h []     = []
+    h (y:ys) = g y ++ h ys
+    -- h (y:ys) = g y `append` h ys
 
-    append [] zs     = zs
-    append (x:xs) zs = x : append xs zs
+    -- append [] zs     = zs
+    -- append (x:xs) zs = x : append xs zs
 
 -- typeD :: (a -> b) -> ((a -> c) -> d) -> ((b -> c) -> d)
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
