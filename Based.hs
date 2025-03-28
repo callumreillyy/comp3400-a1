@@ -1,4 +1,4 @@
-module Based (changeBase) where
+module Based (changeBase, fromBase, toBase) where
 
 import           GHC.Natural (Natural)
 import           Prelude     hiding (filter, fmap, foldl, foldr, liftA2, map,
@@ -55,13 +55,26 @@ Binary number 1001010101 is 1125 in octal and 597 in decimal.
 This problem is worth 10 POINTS.
 
 --}
-
-
 -- EASY: 8 POINTS
 -- We guarantee that @from@ is always 10. @to@ can be anything above 1.
 --
 -- HARD: 2 POINTS
 -- @from@ and @to@ can be anything above 1.
 --
+
 changeBase :: Natural -> Natural -> [Natural] -> [Natural]
-changeBase from to digits = undefined
+changeBase from to digits =
+    toBase to (fromBase from digits)
+
+-- Get the decimal representation of a number in the 'from' base
+fromBase :: Natural -> [Natural] -> Natural
+fromBase base = helper 0
+  where
+    helper acc []     = acc
+    helper acc (x:xs) = helper (acc * base + x) xs
+
+-- Recursively construct a list of digits in the 'to' base from the decimal rep
+toBase :: Natural -> Natural -> [Natural]
+toBase base n
+    | n < base  = [n]
+    | otherwise = toBase base (n `div` base) ++ [n `mod` base]
