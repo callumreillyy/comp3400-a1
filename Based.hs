@@ -63,15 +63,12 @@ This problem is worth 10 POINTS.
 --
 
 changeBase :: Natural -> Natural -> [Natural] -> [Natural]
-changeBase from to digits =
-    toBase to (fromBase from digits)
+changeBase from to digits = toBase to (fromBase from digits)
 
 -- Get the decimal representation of a number in the 'from' base
 fromBase :: Natural -> [Natural] -> Natural
-fromBase base = helper 0
-  where
-    helper acc []     = acc
-    helper acc (x:xs) = helper (acc * base + x) xs
+fromBase base [] = 0
+fromBase base (x:xs) = (+) (x * base ^ length xs) $ fromBase base xs
 
 -- Recursively construct a list of digits in the 'to' base from the decimal rep
 toBase :: Natural -> Natural -> [Natural]
