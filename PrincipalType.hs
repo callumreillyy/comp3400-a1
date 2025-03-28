@@ -36,7 +36,9 @@ This problem is worth 10 POINTS.
 
 -- typeA :: (a -> b, b -> c) -> (a -> c)
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeA (f, g) x = g (f x)
+--typeA (f, g) x = g (f x)
+
+typeA (fab, fbc) = \a -> fbc $ fab a
 
 -- typeB :: a -> (b, c, d) -> c
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
