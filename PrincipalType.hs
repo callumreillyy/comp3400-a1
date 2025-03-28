@@ -44,15 +44,15 @@ typeB _ (_,y,_)= y
 
 -- typeC :: (a -> [b]) -> (b -> [c]) -> a -> [c]
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeC fxy fyz x = g (fxy x)
+typeC fxy fyz x = f (fxy x)
   where
-    g []     = []
-    g (y:ys) = (++) (fyz y) (g ys)
+    f []     = []
+    f (y:ys) = (++) (fyz y) (f ys)
 
 -- typeD :: (a -> b) -> ((a -> c) -> d) -> ((b -> c) -> d)
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeD fxy g hxz = g (\x -> hxz (fxy x))
+typeD fxy g fxz = g (\x -> fxz (fxy x))
 
 -- typeE :: ((a -> b -> c) -> a) -> (a -> c) -> c
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeE = undefined
+typeE g fxyz fxz = fxz $ g fxyz 
