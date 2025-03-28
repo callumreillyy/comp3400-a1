@@ -36,7 +36,7 @@ This problem is worth 10 POINTS.
 
 -- typeA :: (a -> b, b -> c) -> (a -> c)
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeA (fab, fbc) = \a -> fbc $ fab a
+typeA (fxy, fyz) = \x -> fyz $ fxy x
 
 -- typeB :: a -> (b, c, d) -> c
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
@@ -49,10 +49,9 @@ typeC fxy fyz x = g (fxy x)
     g []     = []
     g (y:ys) = (++) (fyz y) (g ys)
 
-
 -- typeD :: (a -> b) -> ((a -> c) -> d) -> ((b -> c) -> d)
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeD = undefined
+typeD fxy g hxz = g (\x -> hxz (fxy x))
 
 -- typeE :: ((a -> b -> c) -> a) -> (a -> c) -> c
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
