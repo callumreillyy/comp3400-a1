@@ -55,4 +55,4 @@ typeD fxy g fxz = g (\x -> fxz (fxy x))
 
 -- typeE :: ((a -> b -> c) -> a) -> (a -> c) -> c
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeE g fxyz fxz = fxz $ g fxyz 
+typeE g fxz = fxz (g (\x y -> fxz x))
