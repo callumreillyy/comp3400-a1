@@ -44,13 +44,9 @@ typeB _ (_,y,_)= y
 
 -- typeC :: (a -> [b]) -> (b -> [c]) -> a -> [c]
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
-typeC fxy fyz x = z (fxy x)
+typeC fxy fyz x = g (fxy x)
   where
-    z []     = []
-    z (y:ys) = append (fyz y) (z ys)
-
-    append [] zs     = zs
-    append (x:xs) zs = x : append xs zs
+    g (y:ys) = (++) (fyz y) (g ys)
 
 -- typeD :: (a -> b) -> ((a -> c) -> d) -> ((b -> c) -> d)
 -- DO NOT UNCOMMENT OR ADD TYPE ANNOTATION
