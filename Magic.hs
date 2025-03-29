@@ -5,7 +5,6 @@ import           Prelude     hiding (filter, fmap, foldl, foldr, liftA2, map,
                               mapM, mapM_, pure, replicate, return, reverse,
                               sequence, sequenceA, unzip, zip, zip3, zipWith,
                               (*>), (<$), (<$>), (<*), (<*>), (>>), (>>=))
-import Distribution.Simple.Utils (xargs)
 
 {--
 
