@@ -88,8 +88,15 @@ This problem is worth 10 POINTS.
 --}
 
 -- 4 POINTS
+--magic :: (Natural -> a -> b -> b) -> b -> [a] -> b
+--             ^       ^                     ^
+--      Index of    this element       in this list
+
 magic :: (Natural -> a -> b -> b) -> b -> [a] -> b
-magic = undefined
+magic fnxy y xs = f 0 y xs
+  where
+    f _ y []     = y
+    f n y (x:xs) = f (n + 1) (fnxy n x y) xs
 
 -- EASY: 2.5 POINTS
 sumOddIx :: [Integer] -> Integer
