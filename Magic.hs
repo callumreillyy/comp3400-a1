@@ -89,28 +89,28 @@ This problem is worth 10 POINTS.
 
 -- 4 POINTS
 magic :: (Natural -> a -> b -> b) -> b -> [a] -> b
-magic f acc xs = doMagic 0 acc xs
+magic f y xs = doMagic 0 y xs
     where
-        doMagic _ acc []     = acc
-        doMagic n acc (x:xs) = f n x (doMagic (n + 1) acc xs)
+        doMagic _ y []     = y
+        doMagic n y (x:xs) = f n x (doMagic (n + 1) y xs)
 
 -- EASY: 2.5 POINTS
 -- init y as accumulator starting 0
 sumOddIx :: [Integer] -> Integer
 sumOddIx nums = magic f 0 nums
     where
-        f n num count = if odd n then count + num else num
+        f n num sum = if odd n then sum + num else sum
 
 -- MEDIUM: 2.5 POINTS
 -- init y as empty list []
--- use : to preappend x to list y (compared to ++ append)
+-- use : to preappend x to list y (compared to ++)
 dropEvenIx :: [a] -> [a]
 dropEvenIx nums = magic f [] nums
     where
-        f n num evens = if odd n then num : evens else evens
+        f n num lst = if odd n then num : lst else lst
 
 -- HARD: 1 POINT
 enumerate :: [a] -> [(Natural, a)]
-enumerate values = magic f [] values
+enumerate vals = magic f [] vals
     where
-        f n value dict = (n, value) : dict
+        f n val dict = (n, val) : dict
