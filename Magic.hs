@@ -99,11 +99,13 @@ sumOddIx :: [Integer] -> Integer
 -- initialise y = 0 for magic
 sumOddIx xs = magic f 0 xs
     where
-        f n x y = if odd (fromIntegral n) then y + x else y
+        f n x y = if odd n then y + x else y
 
 -- MEDIUM: 2.5 POINTS
 dropEvenIx :: [a] -> [a]
-dropEvenIx = undefined
+dropEvenIx xs = magic f [] xs
+    where
+        f n x y = if odd n then y ++ [x] else y
 
 -- HARD: 1 POINT
 enumerate :: [a] -> [(Natural, a)]
