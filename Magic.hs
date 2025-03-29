@@ -89,19 +89,20 @@ This problem is worth 10 POINTS.
 
 -- 4 POINTS
 magic :: (Natural -> a -> b -> b) -> b -> [a] -> b
-magic f y xs = g 0 y xs
+magic doFunc y xs = doMagic 0 y xs
     where
-        g _ y []     = y
-        g n y (x:xs) = f n x (g (n + 1) y xs)
+        doMagic _ y []     = y
+        doMagic n y (x:xs) = doFunc n x (doMagic (n + 1) y xs)
 
 -- EASY: 2.5 POINTS
+-- init y as accumulator starting 0
 sumOddIx :: [Integer] -> Integer
--- initialise y = 0 for magic
 sumOddIx xs = magic f 0 xs
     where
         f n x y = if odd n then y + x else y
 
 -- MEDIUM: 2.5 POINTS
+-- init y as empty list []
 dropEvenIx :: [a] -> [a]
 dropEvenIx xs = magic f [] xs
     where
@@ -109,4 +110,6 @@ dropEvenIx xs = magic f [] xs
 
 -- HARD: 1 POINT
 enumerate :: [a] -> [(Natural, a)]
-enumerate = undefined
+enumerate xs = magic f [] xs
+    where
+        f n x y = y ++ [(n, x)]
