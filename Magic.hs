@@ -5,6 +5,7 @@ import           Prelude     hiding (filter, fmap, foldl, foldr, liftA2, map,
                               mapM, mapM_, pure, replicate, return, reverse,
                               sequence, sequenceA, unzip, zip, zip3, zipWith,
                               (*>), (<$), (<$>), (<*), (<*>), (>>), (>>=))
+import Distribution.Simple.Utils (xargs)
 
 {--
 
@@ -88,19 +89,18 @@ This problem is worth 10 POINTS.
 --}
 
 -- 4 POINTS
---magic :: (Natural -> a -> b -> b) -> b -> [a] -> b
---             ^       ^                     ^
---      Index of    this element       in this list
-
 magic :: (Natural -> a -> b -> b) -> b -> [a] -> b
-magic fnxy y xs = f 0 y xs
+magic f y xs = g 0 y xs
     where
-        f _ y []     = y
-        f n y (x:xs) = fnxy n x (f (n + 1) y xs)
+        g _ y []     = y
+        g n y (x:xs) = f n x (g (n + 1) y xs)
 
 -- EASY: 2.5 POINTS
 sumOddIx :: [Integer] -> Integer
-sumOddIx = undefined
+-- initialise y = 0 for magic
+sumOddIx xs = magic f 0 xs
+    where
+        f n x y = if odd (fromIntegral n) then y + x else y
 
 -- MEDIUM: 2.5 POINTS
 dropEvenIx :: [a] -> [a]
