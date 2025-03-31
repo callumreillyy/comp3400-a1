@@ -64,7 +64,22 @@ This problem is worth 10 POINTS.
 
 -- EASY: 6 POINTS
 firstTriple :: Eq a => [a] -> a
-firstTriple = undefined
+firstTriple xs = findTriple xs []
+  where
+    findTriple (x:xs) countDict =
+      case lookup x countDict of
+        Just n | n + 1 == 3 -> x -- include current match (+1)
+               | otherwise  -> findTriple xs (updateCount x (n + 1) countDict)
+        Nothing             -> findTriple xs ((x, 1) : countDict)
+
+    updateCount x newCount = mapHelper replaceCount
+        where
+            -- update count of current matched value
+            replaceCount (y, n) = if y == x then (y, newCount) else (y, n)
+
+    -- map helper func to apply replaceCount to dictionary
+    mapHelper _ []     = []
+    mapHelper f (x:xs) = f x : mapHelper f xs
 
 -- MEDIUM: 3 POINTS
 firstN :: Eq a => Natural -> [a] -> a
