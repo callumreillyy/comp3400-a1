@@ -1,4 +1,4 @@
-module FirstTriple (firstTriple, firstN, firstNInf) where
+module FirstTriple (firstTriple, firstN, firstNInf, mapHelper) where
 
 import           GHC.Natural (Natural)
 import           Prelude     hiding (filter, fmap, foldl, foldr, liftA2, map,
@@ -62,29 +62,33 @@ This problem is worth 10 POINTS.
 
 --}
 
+-- Helper function to execute logic for finding the first element that meets a condition
+findFirst :: Eq a => (Int -> Bool) -> [a] -> a
+findFirst condition xs = createDict xs []
+    where
+        createDict (x:xs) countDict =
+            case lookup x countDict of
+                Just count | condition (count + 1) -> x
+                           | otherwise             -> createDict xs (updateCount x (count + 1) countDict)
+                Nothing                            -> createDict xs ((x, 1) : countDict)
+
+        updateCount x newCount = mapHelper replaceCount
+            where
+                replaceCount (y, count) = if y == x then (y, newCount) else (y, count)
+
 -- EASY: 6 POINTS
 firstTriple :: Eq a => [a] -> a
-firstTriple xs = findTriple xs []
-  where
-    findTriple (x:xs) countDict =
-      case lookup x countDict of
-        Just n | n + 1 == 3 -> x -- include current match (+1)
-               | otherwise  -> findTriple xs (updateCount x (n + 1) countDict)
-        Nothing             -> findTriple xs ((x, 1) : countDict)
-
-    updateCount x newCount = mapHelper replaceCount
-        where
-            -- update count of current matched value
-            replaceCount (y, n) = if y == x then (y, newCount) else (y, n)
-
-    -- map helper func to apply replaceCount to dictionary
-    mapHelper _ []     = []
-    mapHelper f (x:xs) = f x : mapHelper f xs
+firstTriple xs = findFirst (== 3) xs
 
 -- MEDIUM: 3 POINTS
 firstN :: Eq a => Natural -> [a] -> a
-firstN = undefined
+firstN n xs = findFirst (== fromIntegral n) xs
 
 -- HARD: 1 POINT
 firstNInf :: Eq a => Natural -> [a] -> a
 firstNInf = undefined
+
+-- Helper function for mapping 
+mapHelper :: (a -> b) -> [a] -> [b]
+mapHelper _ []     = []
+mapHelper f (x:xs) = f x : mapHelper f xs
