@@ -97,7 +97,7 @@ firstN n xs = findN xs []
 -- HARD: 1 POINT
 -- Completed firstN to work with infinite lists
 firstNInf :: Eq a => Natural -> [a] -> Maybe a
-firstNInf = firstN
+firstNInf = undefined
 
 -- Helper function for mapping 
 mapHelper :: (a -> b) -> [a] -> [b]
