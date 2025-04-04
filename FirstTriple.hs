@@ -78,12 +78,13 @@ firstTriple xs = findTriple xs []
                 replaceCount (y, n) = if y == x then (y, newCount) else (y, n)
 
 -- MEDIUM: 3 POINTS
-firstN :: Eq a => Natural -> [a] -> a
+firstN :: Eq a => Natural -> [a] -> Maybe a
 firstN n xs = findN xs []
     where
+        findN [] _ = Nothing
         findN (x:xs) countDict =
             case lookup x countDict of
-                Just count | count + 1 == n -> x
+                Just count | count + 1 == n -> Just x
                            | otherwise      -> findN xs (updateCount x (count + 1) countDict)
                 Nothing                     -> findN xs ((x, 1) : countDict)
 
