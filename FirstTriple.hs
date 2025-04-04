@@ -63,12 +63,13 @@ This problem is worth 10 POINTS.
 --}
 
 -- EASY: 6 POINTS
-firstTriple :: Eq a => [a] -> a
+firstTriple :: Eq a => [a] -> Maybe a
 firstTriple xs = findTriple xs []
     where
+        findN [] _ = Nothing
         findTriple (x:xs) countDict =
             case lookup x countDict of
-                Just n | n + 1 == 3 -> x -- include current match (+1)
+                Just n | n + 1 == 3 -> Just x -- check count plus current match (+1)
                        | otherwise  -> findTriple xs (updateCount x (n + 1) countDict)
                 Nothing             -> findTriple xs ((x, 1) : countDict)
 
@@ -78,19 +79,21 @@ firstTriple xs = findTriple xs []
                 replaceCount (y, n) = if y == x then (y, newCount) else (y, n)
 
 -- MEDIUM: 3 POINTS
-firstN :: Eq a => Natural -> [a] -> a
+firstN :: Eq a => Natural -> [a] -> Maybe a
 firstN n xs = findN xs []
     where
-        findN [] _ = error "empty list"
+        findN [] _ = Nothing
         findN (x:xs) countDict =
             case lookup x countDict of
-                Just count | count + 1 == n -> x 
+                Just count | count + 1 == n -> Just x 
                            | otherwise      -> findN xs (updateCount x (count + 1) countDict)
                 Nothing                     -> findN xs ((x, 1) : countDict)
 
         updateCount x newCount = mapHelper replaceCount
             where
                 replaceCount (y, count) = if y == x then (y, newCount) else (y, count)
+
+
 -- HARD: 1 POINT
 firstNInf :: Eq a => Natural -> [a] -> a
 firstNInf = undefined
