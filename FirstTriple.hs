@@ -1,4 +1,4 @@
-module FirstTriple (firstTriple, firstN, firstNInf, mapHelper) where
+module FirstTriple (firstTriple, firstN, firstNInf, mapHelper, findFirst) where
 
 import           GHC.Natural (Natural)
 import           Prelude     hiding (filter, fmap, foldl, foldr, liftA2, map,
