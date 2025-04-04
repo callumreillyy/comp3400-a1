@@ -66,6 +66,7 @@ This problem is worth 10 POINTS.
 findFirst :: Eq a => (Int -> Bool) -> [a] -> a
 findFirst condition xs = createDict xs []
     where
+        createDict [] _ = error "No element satisfies the condition" -- Handle empty list
         createDict (x:xs) countDict =
             case lookup x countDict of
                 -- check if the condition is met (+1 to include the current match)
