@@ -68,12 +68,15 @@ findFirst condition xs = createDict xs []
     where
         createDict (x:xs) countDict =
             case lookup x countDict of
+                -- check if the condition is met (+1 to include the current match)
                 Just count | condition (count + 1) -> x
                            | otherwise             -> createDict xs (updateCount x (count + 1) countDict)
                 Nothing                            -> createDict xs ((x, 1) : countDict)
 
+        -- Helper function to update the count of an element in the dictionary by remapping with map helper
         updateCount x newCount = mapHelper replaceCount
             where
+                -- if a match is found, update the count
                 replaceCount (y, count) = if y == x then (y, newCount) else (y, count)
 
 -- EASY: 6 POINTS
