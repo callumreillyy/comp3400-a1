@@ -66,7 +66,7 @@ This problem is worth 10 POINTS.
 firstTriple :: Eq a => [a] -> Maybe a
 firstTriple xs = findTriple xs []
     where
-        findN [] _ = Nothing
+        findTriple [] _ = Nothing
         findTriple (x:xs) countDict =
             case lookup x countDict of
                 Just n | n + 1 == 3 -> Just x -- check count plus current match (+1)
