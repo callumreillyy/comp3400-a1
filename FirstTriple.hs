@@ -63,13 +63,12 @@ This problem is worth 10 POINTS.
 --}
 
 -- EASY: 6 POINTS
-firstTriple :: Eq a => [a] -> Maybe a
+firstTriple :: Eq a => [a] -> a
 firstTriple xs = findTriple xs []
     where
-        findTriple [] _ = Nothing
         findTriple (x:xs) countDict =
             case lookup x countDict of
-                Just n | n + 1 == 3 -> Just x -- check count plus current match (+1)
+                Just n | n + 1 == 3 -> x -- check count plus current match (+1)
                        | otherwise  -> findTriple xs (updateCount x (n + 1) countDict)
                 Nothing             -> findTriple xs ((x, 1) : countDict)
 
@@ -79,13 +78,12 @@ firstTriple xs = findTriple xs []
                 replaceCount (y, n) = if y == x then (y, newCount) else (y, n)
 
 -- MEDIUM: 3 POINTS
-firstN :: Eq a => Natural -> [a] -> Maybe a
+firstN :: Eq a => Natural -> [a] -> a
 firstN n xs = findN xs []
     where
-        findN [] _ = Nothing
         findN (x:xs) countDict =
             case lookup x countDict of
-                Just count | count + 1 == n -> Just x
+                Just count | count + 1 == n -> x
                            | otherwise      -> findN xs (updateCount x (count + 1) countDict)
                 Nothing                     -> findN xs ((x, 1) : countDict)
 
