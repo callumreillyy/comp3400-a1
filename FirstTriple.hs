@@ -1,4 +1,4 @@
-module FirstTriple (firstTriple, firstN, firstNInf, mapHelper, findFirst) where
+module FirstTriple (firstTriple, firstN, firstNInf, mapHelper) where
 
 import           GHC.Natural (Natural)
 import           Prelude     hiding (filter, fmap, foldl, foldr, liftA2, map,
@@ -62,31 +62,34 @@ This problem is worth 10 POINTS.
 
 --}
 
--- Helper function to execute logic for finding the first element that meets a condition
-findFirst :: Eq a => (Int -> Bool) -> [a] -> a
-findFirst condition xs = createDict xs []
-    where
-        createDict [] _ = error "No element satisfies the condition" -- Handle empty list
-        createDict (x:xs) countDict =
-            case lookup x countDict of
-                -- check if the condition is met (+1 to include the current match)
-                Just count | condition (count + 1) -> x
-                           | otherwise             -> createDict xs (updateCount x (count + 1) countDict)
-                Nothing                            -> createDict xs ((x, 1) : countDict)
-
-        -- Helper function to update the count of an element in the dictionary by remapping with map helper
-        updateCount x newCount = mapHelper replaceCount
-            where
-                -- if a match is found, update the count
-                replaceCount (y, count) = if y == x then (y, newCount) else (y, count)
-
 -- EASY: 6 POINTS
 firstTriple :: Eq a => [a] -> a
-firstTriple xs = findFirst (== 3) xs
+firstTriple xs = findTriple xs []
+    where
+        findTriple (x:xs) countDict =
+            case lookup x countDict of
+                Just n | n + 1 == 3 -> x -- include current match (+1)
+                       | otherwise  -> findTriple xs (updateCount x (n + 1) countDict)
+                Nothing             -> findTriple xs ((x, 1) : countDict)
+
+        -- update count of current matched value by remapping the countDict using map helper
+        updateCount x newCount = mapHelper replaceCount
+            where
+                replaceCount (y, n) = if y == x then (y, newCount) else (y, n)
 
 -- MEDIUM: 3 POINTS
 firstN :: Eq a => Natural -> [a] -> a
-firstN n xs = findFirst (== fromIntegral n) xs
+firstN n xs = findN xs []
+    where
+        findN (x:xs) countDict =
+            case lookup x countDict of
+                Just count | count + 1 == n -> x 
+                           | otherwise      -> findN xs (updateCount x (count + 1) countDict)
+                Nothing                     -> findN xs ((x, 1) : countDict)
+
+        updateCount x newCount = mapHelper replaceCount
+            where
+                replaceCount (y, count) = if y == x then (y, newCount) else (y, count)
 
 -- HARD: 1 POINT
 firstNInf :: Eq a => Natural -> [a] -> a
