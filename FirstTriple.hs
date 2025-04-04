@@ -85,7 +85,7 @@ firstN n xs = findN xs []
         findN [] _ = Nothing
         findN (x:xs) countDict =
             case lookup x countDict of
-                Just count | count + 1 == n -> Just x 
+                Just count | count + 1 == n -> Just x
                            | otherwise      -> findN xs (updateCount x (count + 1) countDict)
                 Nothing                     -> findN xs ((x, 1) : countDict)
 
@@ -95,8 +95,9 @@ firstN n xs = findN xs []
 
 
 -- HARD: 1 POINT
-firstNInf :: Eq a => Natural -> [a] -> a
-firstNInf = undefined
+-- Completed firstN to work with infinite lists
+firstNInf :: Eq a => Natural -> [a] -> Maybe a
+firstNInf = firstN
 
 -- Helper function for mapping 
 mapHelper :: (a -> b) -> [a] -> [b]
