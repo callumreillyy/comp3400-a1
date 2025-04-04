@@ -84,9 +84,10 @@ firstN n xs = findN xs []
     where
         findN (x:xs) countDict =
             case lookup x countDict of
-                Just count | count + 1 == n -> x
-                           | otherwise      -> findN xs (updateCount x (count + 1) countDict) 
-                Nothing                     -> findN xs ((x, 1) : countDict)
+                Just count | count + 1 == fromIntegral n -> x
+                           | otherwise                   -> findN xs (updateCount x (count + 1) countDict) 
+                Nothing    | n == 1                      -> x
+                           | otherwise                   -> findN xs ((x, 1) : countDict)
 
         updateCount x newCount = mapHelper replaceCount
             where
