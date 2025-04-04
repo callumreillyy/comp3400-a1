@@ -81,6 +81,7 @@ firstTriple xs = findTriple xs []
 firstN :: Eq a => Natural -> [a] -> a
 firstN n xs = findN xs []
     where
+        findN [] _ = error "empty list"
         findN (x:xs) countDict =
             case lookup x countDict of
                 Just count | count + 1 == n -> x 
@@ -90,7 +91,6 @@ firstN n xs = findN xs []
         updateCount x newCount = mapHelper replaceCount
             where
                 replaceCount (y, count) = if y == x then (y, newCount) else (y, count)
-
 -- HARD: 1 POINT
 firstNInf :: Eq a => Natural -> [a] -> a
 firstNInf = undefined
